@@ -2,6 +2,11 @@ var config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    // Centralizando a tela do jogo
+    scale: {
+        mode: Phaser.Scale.FIT,
+      },
+    autoCenter: Phaser.Scale.CENTER,
     scene: {
     preload: preload,
     create: create,
@@ -15,7 +20,9 @@ var peixin;
 
 function preload() { 
     
-    this.load.image("mar", 'assets/bg_azul-claro.png');
+    this.load.image("mar", 'assets/bg_rosa.png');
+
+    this.load.image("bluemar", 'assets/bg_azul.png');
 
     this.load.image("logo", 'assets/logo-inteli_azul.png');
 
@@ -34,10 +41,10 @@ function preload() {
 
 function create() {
     
-    const imamar = this.add.image(400, 300, "mar");
+    let imamar = this.add.image(400, 300, "mar");
     imamar.setDepth(1);
 
-    const imalogo = this.add.image(400, 525, "logo").setScale(0.5);
+    let imalogo = this.add.image(400, 525, "logo").setScale(0.5);
     imalogo.setDepth(2)
     
     //Guardar o peixe em uma variável
@@ -48,22 +55,30 @@ function create() {
     peixin.setFlip(true, false);
 
     //Peixes extras
-    const imanauta = this.add.image(80, 80, "peixonauta");
+    let imanauta = this.add.image(80, 80, "peixonauta");
     imanauta.setDepth(3);
 
-    const imanemo = this.add.image(720, 550, "nemo");
+    let imanemo = this.add.image(720, 550, "nemo");
     imanemo.setDepth(3);
 
-    const imadisco = this.add.image(400, 60, "disco");
+    let imadisco = this.add.image(400, 60, "disco");
     imadisco.setDepth(5)
 
-    const imagem = this.add.image(400, 400, "floor");
+    let imagem = this.add.image(400, 400, "floor");
     imagem.setDepth(2);
+
+    // evento de mudança de orientação
+    game.scale.on('orientationchange', function(orientation) {
+        if (orientation === Phaser.Scale.PORTRAIT) {
+            console.log('PORTRAIT');
+        }  else if (orientation === Phaser.Scale.LANDSCAPE) {
+            console.log('LANDSCAPE');
+        } 
+    });
 
  }
 
 function update() {
-
     //Adicionando movimento para o peixe
     peixin.x = this.input.x;
     peixin.y = this.input.y;
